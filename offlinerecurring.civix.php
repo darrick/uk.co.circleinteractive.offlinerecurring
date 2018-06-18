@@ -6,10 +6,10 @@
  * The ExtensionUtil class provides small stubs for accessing resources of this
  * extension.
  */
-class CRM_Offlinerecurring_ExtensionUtil {
+class _ExtensionUtil {
   const SHORT_NAME = "offlinerecurring";
   const LONG_NAME = "uk.co.circleinteractive.offlinerecurring";
-  const CLASS_PREFIX = "CRM_Offlinerecurring";
+  const CLASS_PREFIX = "";
 
   /**
    * Translate a string using the extension's domain.
@@ -77,7 +77,7 @@ class CRM_Offlinerecurring_ExtensionUtil {
 
 }
 
-use CRM_Offlinerecurring_ExtensionUtil as E;
+use _ExtensionUtil as E;
 
 /**
  * (Delegated) Implements hook_civicrm_config().
@@ -205,14 +205,14 @@ function _offlinerecurring_civix_civicrm_upgrade($op, CRM_Queue_Queue $queue = N
 }
 
 /**
- * @return CRM_Offlinerecurring_Upgrader
+ * @return _Upgrader
  */
 function _offlinerecurring_civix_upgrader() {
-  if (!file_exists(__DIR__ . '/CRM/Offlinerecurring/Upgrader.php')) {
+  if (!file_exists(__DIR__ . '//Upgrader.php')) {
     return NULL;
   }
   else {
-    return CRM_Offlinerecurring_Upgrader_Base::instance();
+    return _Upgrader_Base::instance();
   }
 }
 
