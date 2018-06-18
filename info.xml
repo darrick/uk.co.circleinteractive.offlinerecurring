@@ -26,6 +26,6 @@
   </compatibility>
   <comments></comments>
   <civix>
-    <namespace>CRM/Offlinerecurring</namespace>
+    <namespace>CRM/OfflineRecurring</namespace>
   </civix>
 </extension>
