@@ -1,7 +1,7 @@
 <?php
 
 require_once 'offlinerecurring.civix.php';
-use CRM_Offlinerecurring_ExtensionUtil as E;
+use CRM_OfflineRecurring_ExtensionUtil as E;
 
 /**
  * Implements hook_civicrm_config().
