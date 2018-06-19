@@ -151,3 +151,12 @@ function offlinerecurring_civicrm_permission(&$permissions) {
     ts('Update Offline Recurring Contribution(s)'),
   ];
 }
+
+/**
+ * Implementation of hook_civicrm_links()
+ *
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_links
+ */
+function offlinerecurring_civicrm_links($op, $objectName, $objectId, &$links, &$mask, &$values) {
+
+}
