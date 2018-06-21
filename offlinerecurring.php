@@ -160,3 +160,16 @@ function offlinerecurring_civicrm_permission(&$permissions) {
 function offlinerecurring_civicrm_links($op, $objectName, $objectId, &$links, &$mask, &$values) {
 
 }
+
+/**
+ * Implementation of hook_civicrm_entityTypes()
+ *
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_entityTypes
+ */
+function offlinerecurring_civicrm_entityTypes(&$entityTypes)
+  $entityTypes[] = array(
+    'name'  => 'OfflineRecurringContribution',
+    'class' => 'CRM_OfflineRecurring_DAO_RecurringContribution',
+    'table' => 'civicrm_contribution_recur_offline',
+  );
+}

@@ -209,7 +209,7 @@ class CRM_OfflineRecurring_Form_RecurringContribution extends CRM_Core_Form {
         }
       }
     }
-    CRM_OfflineRecurring_Form_RecurringContribution($recurring['id']);
+    CRM_OfflineRecurring_BAO_RecurringContribution::add($recurring['id']);
   }
 
 }
