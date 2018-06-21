@@ -68,14 +68,16 @@
           </div>
           <div id="moveRecur">
             <div class="crm-section">
-              {$form.move_recurring_record.html}&nbsp;{$form.move_recurring_record.label}
-              <br /><br />
-              <table class="form-layout" id="move-recurring-table">
+              <table class="form-layout-compressed">
                 <tr>
+                  <td class="label">{$form.move_recurring_record.label}</td>
+                  <td>{$form.move_recurring_record.html}</td>
+                </tr>
+                <tr class="move-recurring-table tr-contact_id">
                   <td class="label">{$form.contact_id.label}</td>
                   <td>{$form.contact_id.html}</td>
                 </tr>
-                <tr>
+                <tr class="move-recurring-table tr-move_existing_contributions">
                   <td class="label">{$form.move_existing_contributions.label}</td>
                   <td>{$form.move_existing_contributions.html}</td>
                 </tr>
@@ -93,22 +95,25 @@
 
 {literal}
 <script type="text/javascript">
-CRM.$(function() {
-  $('#move-recurring-table').hide();
-
-  $('#move_recurring_record').change(function(){
-    if ($('#move_recurring_record').is(':checked')) {
-      $('#move-recurring-table').show();
+CRM.$(function($) {
+  function hideShow(fieldName, elementToHide) {
+    if ($(fieldName).is(':checked')) {
+      $(elementToHide).show();
     }
     else {
-      $('#move-recurring-table').hide();
+      $(elementToHide).hide();
     }
+  }
+  hideShow('#move_recurring_record', '.move-recurring-table');
+  $('#move_recurring_record').change(function(){
+    hideShow('#move_recurring_record', '.move-recurring-table');
   });
 
   // Hide 'Move Existing Contributions?' field is no existing contributions available
   {/literal}{if $existingContributionsAvailable eq 0}{literal}
     $('#move_existing_contributions').prop('checked', false);
-    $('#move_existing_contributions').parent().parent().hide();
+    $('.tr-move_existing_contributions').hide();
+    $('.tr-move_existing_contributions').removeClass('move-recurring-table');
   {/literal}{/if}{literal}
 });
 </script>
