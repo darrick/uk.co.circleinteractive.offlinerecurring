@@ -218,7 +218,6 @@ class CRM_OfflineRecurring_Form_RecurringContribution extends CRM_Core_Form {
         $recurParams[$date] = CRM_Utils_Date::processDate($recurParams[$date]);
       }
     }
-    $recurring = civicrm_api3('ContributionRecur', 'create', $recurParams);
 
     if ($this->_action & CRM_Core_Action::UPDATE) {
       // Moving recurring record to another contact, if 'Move Recurring Record?' is ticked
@@ -228,14 +227,18 @@ class CRM_OfflineRecurring_Form_RecurringContribution extends CRM_Core_Form {
           if ($recurParams['contact_id'] != $this->_contactID) {
             $contributions = civicrm_api3('Contribution', 'get', ['contribution_recur_id' => $this->_id, 'return' => 'id']);
             foreach ($contributions['values'] as $contribution) {
-              civicrm_api3('Contribution', 'create', ['id' => $contribution['id'], 'contact_id' => $recurParams['contact_id']]);
+              try {
+                civicrm_api3('Contribution', 'create', ['id' => $contribution['id'], 'contact_id' => $recurParams['contact_id']]);
+              }
+              catch (CiviCRM_API3_Exception $e) {
+                CRM_Core_Error::fatal(ts("Contribution cannot be updated."));
+              }
             }
           }
-          $update_contribution_sql = "UPDATE civicrm_contribution SET contact_id = %1 WHERE contribution_recur_id = %2";
-          CRM_Core_DAO::executeQuery($update_contribution_sql, $update_recur_params);
         }
       }
     }
+    $recurring = civicrm_api3('ContributionRecur', 'create', $recurParams);
     CRM_OfflineRecurring_BAO_RecurringContribution::add($recurring['id']);
   }
 
