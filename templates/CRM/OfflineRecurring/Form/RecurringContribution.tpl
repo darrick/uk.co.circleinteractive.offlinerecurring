@@ -11,13 +11,15 @@
     <table class="form-layout-compressed">
       <tr><td class="label">{$form.amount.label}</td><td>{$form.currency.html} &nbsp; &nbsp;{$form.amount.html}</td><tr>
       <tr><td>&nbsp;</td><td>{$form.is_recur.html} {ts}{$form.frequency_interval.label}{/ts} &nbsp;{$form.frequency_interval.html} &nbsp; {$form.frequency_unit.html}</td></tr>
-      <tr><td class="label">{$form.start_date.label}</td><td>{include file="CRM/common/jcalendar.tpl" elementName=start_date}</td></tr>
-      <tr><td class="label">{$form.next_sched_contribution.label}</td><td>{include file="CRM/common/jcalendar.tpl" elementName=next_sched_contribution}<br />
+      <tr><td class="label">{$form.start_date.label}</td><td>{$form.start_date.html}</td></tr>
+      <tr><td class="label">{$form.next_sched_contribution_date.label}</td><td>{$form.next_sched_contribution_date.html}<br />
         <div class="description">{ts}This is the date the contribution record will be created for the recurring payment (by the background process). If you want the first contribution on the start date, this should be same as start date.{/ts}</div>
       </td></tr>
-      <tr><td class="label">{$form.end_date.label}</td><td>{include file="CRM/common/jcalendar.tpl" elementName=end_date} <br/>
+      <tr><td class="label">{$form.end_date.label}</td><td>{$form.end_date.html}<br/>
         <div class="description">{ts}Please specify end date only if you want to end the recurring contribution. Else leave it blank.<br /><b>Please note: No contribution record will be created (by the background process) for the contact, if end date is specified</b>.{/ts}</div>
       </td></tr>
+      <tr><td class="label">{$form.financial_type_id.label}</td><td>{$form.financial_type_id.html}</td></tr>
+      <tr><td class="label">{$form.payment_instrument_id.label}</td><td>{$form.payment_instrument_id.html}</td></tr>
     </table>
 
     {if $action eq 2}

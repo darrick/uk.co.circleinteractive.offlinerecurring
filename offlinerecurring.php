@@ -133,6 +133,11 @@ function offlinerecurring_civicrm_alterSettingsFolders(&$metaDataFolders = NULL)
  */
 function offlinerecurring_civicrm_entityTypes(&$entityTypes) {
   _offlinerecurring_civix_civicrm_entityTypes($entityTypes);
+  $entityTypes[] = [
+    'name'  => 'OfflineRecurringContribution',
+    'class' => 'CRM_OfflineRecurring_DAO_RecurringContribution',
+    'table' => 'civicrm_contribution_recur_offline',
+  ];
 }
 
 /**
@@ -158,18 +163,11 @@ function offlinerecurring_civicrm_permission(&$permissions) {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_links
  */
 function offlinerecurring_civicrm_links($op, $objectName, $objectId, &$links, &$mask, &$values) {
-
-}
-
-/**
- * Implementation of hook_civicrm_entityTypes()
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_entityTypes
- */
-function offlinerecurring_civicrm_entityTypes(&$entityTypes)
-  $entityTypes[] = array(
-    'name'  => 'OfflineRecurringContribution',
-    'class' => 'CRM_OfflineRecurring_DAO_RecurringContribution',
-    'table' => 'civicrm_contribution_recur_offline',
-  );
+  if ($objectName == 'Contribution' and $op == 'contribution.selector.recurring') {
+    if (CRM_OfflineRecurring_BAO_RecurringContribution::isOfflineRecur($values['crid'])) {
+      $links[0]['title'] = ts('View Offline Recurring Payment');
+      $links[1]['title'] = ts('Edit Offline Recurring Payment');
+      $links[1]['url'] = 'civicrm/offlinerecurring/add';
+    }
+  }
 }

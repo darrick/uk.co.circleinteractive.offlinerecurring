@@ -9,9 +9,9 @@
 require_once 'CRM/Core/DAO.php';
 require_once 'CRM/Utils/Type.php';
 /**
- * CRM_RecurringContribution_DAO_RecurringContribution constructor.
+ * CRM_OfflineRecurring_DAO_RecurringContribution constructor.
  */
-class CRM_RecurringContribution_DAO_RecurringContribution extends CRM_Core_DAO {
+class CRM_OfflineRecurring_DAO_RecurringContribution extends CRM_Core_DAO {
   /**
    * Static instance to hold the table name.
    *
@@ -70,7 +70,7 @@ class CRM_RecurringContribution_DAO_RecurringContribution extends CRM_Core_DAO {
           'required' => true,
           'table_name' => 'civicrm_contribution_recur_offline',
           'entity' => 'OfflineRecurringContribution',
-          'bao' => 'CRM_RecurringContribution_DAO_RecurringContribution',
+          'bao' => 'CRM_OfflineRecurring_DAO_RecurringContribution',
           'localizable' => 0,
         ) ,
         'contribution_recur_id' => array(
@@ -80,7 +80,7 @@ class CRM_RecurringContribution_DAO_RecurringContribution extends CRM_Core_DAO {
           'required' => true,
           'table_name' => 'civicrm_contribution_recur_offline',
           'entity' => 'OfflineRecurringContribution',
-          'bao' => 'CRM_RecurringContribution_DAO_RecurringContribution',
+          'bao' => 'CRM_OfflineRecurring_DAO_RecurringContribution',
           'localizable' => 0,
           'FKClassName' => 'CRM_Contribute_DAO_ContributionRecur',
         ) ,

@@ -29,6 +29,12 @@ class CRM_OfflineRecurring_Form_RecurringContribution extends CRM_Core_Form {
   public $_values = [];
 
   /**
+   * Explicitly declare the form context.
+   */
+  public function getDefaultContext() {
+    return 'create';
+  }
+  /**
   * build all the data structures needed to build the form
   *
   * @return void
@@ -56,6 +62,7 @@ class CRM_OfflineRecurring_Form_RecurringContribution extends CRM_Core_Form {
       ]);
       if ($this->_id) {
         $this->_values = civicrm_api3('ContributionRecur', 'getsingle', ['id' => $this->_id]);
+        $this->assign('recur_id', $this->_id);
         if (CRM_Utils_Array::value('enable_edit', $this->_values) === FALSE) {
           CRM_Core_Error::fatal(ts('You are not allowed to edit the recurring record.'));
         }
@@ -75,6 +82,10 @@ class CRM_OfflineRecurring_Form_RecurringContribution extends CRM_Core_Form {
   public function setDefaultValues() {
     $defaults = $this->_values;
     $defaults['recur_id'] = $this->_id;
+    if (empty($defaults['payment_instrument_id'])) {
+      $defaults['payment_instrument_id'] = key(CRM_Core_OptionGroup::values('payment_instrument', FALSE, FALSE, FALSE, 'AND is_default = 1'));
+    }
+    return $defaults;
   }
 
   /**
@@ -109,9 +120,20 @@ class CRM_OfflineRecurring_Form_RecurringContribution extends CRM_Core_Form {
     );
 
     CRM_Contribute_Form_Contribution_Main::buildRecur($this);
-    $this->addDate('start_date', ts('Start Date'), TRUE, ['formatType' => 'activityDate']);
-    $this->addDate('next_sched_contribution', ts('Next Scheduled Date'), TRUE, ['formatType' => 'activityDate']);
-    $this->addDate('end_date', ts('End Date'), FALSE, ['formatType' => 'activityDate']);
+    foreach ([
+      'start_date' => TRUE,
+      'next_sched_contribution_date' => FALSE,
+      'end_date' => FALSE,
+    ] as $field => $isRequired) {
+      $this->addField($field, ['entity' => 'ContributionRecur'], $isRequired, FALSE);
+    }
+
+    $this->addEntityRef('financial_type_id', ts('Financial Type'), ['entity' => 'FinancialType'], TRUE);
+    $this->add('select', 'payment_instrument_id',
+      ts('Payment Method'),
+      ['' => ts('- select -')] + CRM_Contribute_PseudoConstant::paymentInstrument(),
+      TRUE
+    );
     $this->addButtons([
       [
         'type' => 'next',
@@ -172,7 +194,7 @@ class CRM_OfflineRecurring_Form_RecurringContribution extends CRM_Core_Form {
     $params['recur_id'] = $this->_id;
     $hash = md5(uniqid(rand(), TRUE));
     $recurParams = [
-      'contact_id' => $params['contact_id'],
+      'contact_id' => $this->_contactID,
       'amount' => $params['amount'],
       'currency' => $params['currency'],
       'frequency_unit' => $params['frequency_unit'],
