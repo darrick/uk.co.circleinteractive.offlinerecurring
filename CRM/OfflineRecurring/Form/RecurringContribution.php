@@ -225,7 +225,12 @@ class CRM_OfflineRecurring_Form_RecurringContribution extends CRM_Core_Form {
       if (!empty($params['move_recurring_record'])) {
         if (!empty($params['move_existing_contributions'])) {
           // Update contact id in civicrm_contribution table, if 'Move Existing Contributions?' is ticked
-          // TODO:use api
+          if ($recurParams['contact_id'] != $this->_contactID) {
+            $contributions = civicrm_api3('Contribution', 'get', ['contribution_recur_id' => $this->_id, 'return' => 'id']);
+            foreach ($contributions['values'] as $contribution) {
+              civicrm_api3('Contribution', 'create', ['id' => $contribution['id'], 'contact_id' => $recurParams['contact_id']]);
+            }
+          }
           $update_contribution_sql = "UPDATE civicrm_contribution SET contact_id = %1 WHERE contribution_recur_id = %2";
           CRM_Core_DAO::executeQuery($update_contribution_sql, $update_recur_params);
         }
