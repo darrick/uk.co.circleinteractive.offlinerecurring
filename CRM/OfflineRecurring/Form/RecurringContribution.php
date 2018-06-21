@@ -206,14 +206,14 @@ class CRM_OfflineRecurring_Form_RecurringContribution extends CRM_Core_Form {
       'trxn_id' => $hash,
       'invoice_id' => $hash,
       'contribution_status_id' => 'In Progress',
-      'next_sched_contribution_date' => $params['next_sched_contribution'],
+      'next_sched_contribution_date' => $params['next_sched_contribution_date'],
       'financial_type_id' => $params['financial_type_id'],
       'payment_instrument_id' => $params['payment_instrument_id'],
     ];
     if (!empty($this->_id)) {
       $recurParams['id'] = $this->_id;
     }
-    foreach (['start_date','end_date','next_sched_contribution',] as $date) {
+    foreach (['start_date','end_date','next_sched_contribution_date',] as $date) {
       if (!empty($recurParams[$date])) {
         $recurParams[$date] = CRM_Utils_Date::processDate($recurParams[$date]);
       }
@@ -222,6 +222,7 @@ class CRM_OfflineRecurring_Form_RecurringContribution extends CRM_Core_Form {
     if ($this->_action & CRM_Core_Action::UPDATE) {
       // Moving recurring record to another contact, if 'Move Recurring Record?' is ticked
       if (!empty($params['move_recurring_record'])) {
+        $recurParams['contact_id'] = $params['contact_id'];
         if (!empty($params['move_existing_contributions'])) {
           // Update contact id in civicrm_contribution table, if 'Move Existing Contributions?' is ticked
           if ($recurParams['contact_id'] != $this->_contactID) {
