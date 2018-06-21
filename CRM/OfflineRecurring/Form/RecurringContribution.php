@@ -157,7 +157,19 @@ class CRM_OfflineRecurring_Form_RecurringContribution extends CRM_Core_Form {
   */
   public function postProcess() {
     $params = $this->controller->exportValues();
-    $params['recur_id'] = $this->_submitValues['recur_id'];
+    $this->submit($params);
+  }
+
+  /**
+  * Submit function.
+  *
+  * This is the guts of the postProcess made also accessible to the test suite.
+  *
+  * @param array $params
+  *   Submitted values.
+  */
+  public function submit($params) {
+    $params['recur_id'] = $this->_id;
     $hash = md5(uniqid(rand(), TRUE));
     $recurParams = [
       'contact_id' => $params['contact_id'],
