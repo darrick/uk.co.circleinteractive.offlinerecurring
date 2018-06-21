@@ -38,7 +38,7 @@ function civicrm_api3_job_ProcessOfflineRecurringPayments($params) {
       'contact_id' => $dao->contact_id,
       'receive_date' => date("YmdHis"),
       'total_amount' => $dao->amount,
-      'payment_instrument_id' => 'Cash',
+      'payment_instrument_id' => $dao->payment_instrument_id ? $dao->payment_instrument_id :'Cash',
       'trxn_id' => $hash,
       'invoice_id' => $hash,
       'source' => ts('Offline Recurring Contribution'),
