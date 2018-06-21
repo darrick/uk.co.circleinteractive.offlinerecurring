@@ -17,6 +17,7 @@ class CRM_OfflineRecurring_Upgrader extends CRM_OfflineRecurring_Upgrader_Base {
     $this->ctx->log->info('Upgrade to 1.7');
     $this->addTask(ts('Delete old schedule job for offline recurring.'), 'deleteJob');
     $this->addTask(ts('Rename column name.'), 'alterTable');
+    $this->addTask(ts('Update all contribution recur status to In Progress for empty status_id.'), 'updateStatus');
     return TRUE;
   }
 
@@ -34,7 +35,7 @@ class CRM_OfflineRecurring_Upgrader extends CRM_OfflineRecurring_Upgrader_Base {
   }
 
   /**
-  * Delete previous schedule job.
+  * Alter civicrm_contribution_recur_offline.
   *
   * @param \CRM_Queue_TaskContext $ctx
   *
@@ -52,10 +53,33 @@ class CRM_OfflineRecurring_Upgrader extends CRM_OfflineRecurring_Upgrader_Base {
         CHANGE `id` `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT",
       "ALTER TABLE `civicrm_contribution_recur_offline`
         ADD CONSTRAINT `FK_civicrm_contribution_recur_offline_contribution_recur_id` FOREIGN KEY (`contribution_recur_id`) REFERENCES `civicrm_contribution_recur` (`id`) ON DELETE CASCADE",
-    ]
+    ];
     foreach ($sqls as $sql) {
       CRM_Core_DAO::executeQuery($sql);
     }
+    return TRUE;
+  }
+
+  /**
+  * Update contribution recur status.
+  *
+  * @param \CRM_Queue_TaskContext $ctx
+  *
+  * @return bool
+  */
+  public function updateStatus(CRM_Queue_TaskContext $ctx) {
+    $inProgressStatusId = CRM_Core_PseudoConstant::getKey(
+      'CRM_Contribute_BAO_Contribution',
+      'contribution_status_id',
+      'In Progress'
+    );
+    $sql = "UPDATE civicrm_contribution_recur ccr
+      INNER JOIN civicrm_contribution_recur_offline ccro
+        ON ccro.contribution_recur_id = ccr.id
+      SET ccr.contribution_status_id = {$inProgressStatusId}
+      WHERE ccr.contribution_status_id IS NULL
+    ";
+    CRM_Core_DAO::executeQuery($sql);
     return TRUE;
   }
 
