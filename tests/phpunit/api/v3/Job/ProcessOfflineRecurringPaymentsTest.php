@@ -5,11 +5,11 @@ use Civi\Test\HookInterface;
 use Civi\Test\TransactionalInterface;
 
 /**
- * Job.ProcessOfflineRecurringPayments API Test Case
+ * Job.processofflinerecurringpayments API Test Case
  * This is a generic test class implemented with PHPUnit.
  * @group headless
  */
-class api_v3_Job_ProcessOfflineRecurringPaymentsTest extends \PHPUnit_Framework_TestCase implements HeadlessInterface, HookInterface, TransactionalInterface {
+class api_v3_Job_ProcessofflinerecurringpaymentsTest extends \PHPUnit_Framework_TestCase implements HeadlessInterface, HookInterface, TransactionalInterface {
 
   /**
    * Civi\Test has many helpers, like install(), uninstall(), sql(), and sqlFile().
@@ -42,7 +42,7 @@ class api_v3_Job_ProcessOfflineRecurringPaymentsTest extends \PHPUnit_Framework_
    * Note how the function name begins with the word "test".
    */
   public function testApiExample() {
-    $result = civicrm_api3('Job', 'ProcessOfflineRecurringPayments', array('magicword' => 'sesame'));
+    $result = civicrm_api3('Job', 'processofflinerecurringpayments', array('magicword' => 'sesame'));
     $this->assertEquals('Twelve', $result['values'][12]['name']);
   }
 

@@ -1,16 +1,16 @@
 <?php
 return [
   0 => [
-    'name' => 'Cron:Job.ProcessOfflineRecurringPayments',
+    'name' => 'Cron:Job.processofflinerecurringpayments',
     'entity' => 'Job',
     'update' => 'never',
     'params' => [
       'version' => 3,
-      'name' => 'Job.ProcessOfflineRecurringPayments',
-      'description' => 'Call Job.ProcessOfflineRecurringPayments API',
+      'name' => 'Job.processofflinerecurringpayments',
+      'description' => 'Call Job.processofflinerecurringpayments API',
       'run_frequency' => 'Hourly',
       'api_entity' => 'Job',
-      'api_action' => 'ProcessOfflineRecurringPayments',
+      'api_action' => 'processofflinerecurringpayments',
       'parameters' => '',
     ],
   ],

@@ -2,7 +2,7 @@
 use _ExtensionUtil as E;
 
 /**
- * Job.ProcessOfflineRecurringPayments API
+ * Job.processofflinerecurringpayments API
  *
  * @param array $params
  * @return array API result descriptor
@@ -10,7 +10,7 @@ use _ExtensionUtil as E;
  * @see civicrm_api3_create_error
  * @throws API_Exception
  */
-function civicrm_api3_job_ProcessOfflineRecurringPayments($params) {
+function civicrm_api3_job_processofflinerecurringpayments($params) {
   // 7 day lookback - prevents contributions stopping if cron fails to run for up to 7 days
   $searchStart = date('Y-m-d H:i:s', strtotime('today') - (7 * 86400));
   $searchEnd   = date('Y-m-d H:i:s', strtotime('today') + 86399);
@@ -20,8 +20,8 @@ function civicrm_api3_job_ProcessOfflineRecurringPayments($params) {
     SELECT * FROM civicrm_contribution_recur ccr
       INNER JOIN civicrm_contribution_recur_offline ccro ON ccro.contribution_recur_id = ccr.id
     WHERE (ccr.end_date IS NULL OR ccr.end_date > NOW())
-      AND ccr.next_sched_contribution >= %1
-      AND ccr.next_sched_contribution <= %2
+      AND ccr.next_sched_contribution_date >= %1
+      AND ccr.next_sched_contribution_date <= %2
   ";
 
   $dao = CRM_Core_DAO::executeQuery($sql, [
