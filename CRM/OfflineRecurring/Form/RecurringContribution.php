@@ -122,7 +122,7 @@ class CRM_OfflineRecurring_Form_RecurringContribution extends CRM_Core_Form {
     CRM_Contribute_Form_Contribution_Main::buildRecur($this);
     foreach ([
       'start_date' => TRUE,
-      'next_sched_contribution_date' => FALSE,
+      'next_sched_contribution_date' => TRUE,
       'end_date' => FALSE,
     ] as $field => $isRequired) {
       $this->addField($field, ['entity' => 'ContributionRecur'], $isRequired, FALSE);
