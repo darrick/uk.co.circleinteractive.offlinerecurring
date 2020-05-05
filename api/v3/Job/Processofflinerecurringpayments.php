@@ -17,11 +17,12 @@ function civicrm_api3_job_processofflinerecurringpayments($params) {
 
   // Select the recurring payment, where current date is equal to next scheduled date
   $sql = "
-    SELECT * FROM civicrm_contribution_recur ccr
+    SELECT ccr.* FROM civicrm_contribution_recur ccr
       INNER JOIN civicrm_contribution_recur_offline ccro ON ccro.contribution_recur_id = ccr.id
     WHERE (ccr.end_date IS NULL OR ccr.end_date > NOW())
       AND ccr.next_sched_contribution_date >= %1
       AND ccr.next_sched_contribution_date <= %2
+      AND ccr.cancel_date IS NULL
   ";
 
   $dao = CRM_Core_DAO::executeQuery($sql, [
